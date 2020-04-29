@@ -5,11 +5,13 @@
 #include <unordered_map>
 #include <vector>
 
+#include "core/Initialize.h"
 #include "core/Pointer.h"
 #include "core/RTTI.h"
+#include "core/StringTree.h"
 
 /**
- * RTTI macros
+ * RTTI helper macros for Object class and derived types
  */
 #define RTTI_DECLARE(CLASS_NAME, BASE_NAME)                       \
     inline static const RTTI& Type()                              \
@@ -17,7 +19,15 @@
         static RTTI type = RTTI{#CLASS_NAME, &BASE_NAME::Type()}; \
         return type;                                              \
     }                                                             \
-    inline const RTTI& getType() const { return Type(); }
+    inline virtual const RTTI& getType() const { return Type(); }
+
+#define RTTI_DECLARE_NO_BASE(CLASS_NAME)      \
+    inline static const RTTI& Type()          \
+    {                                         \
+        static RTTI type = RTTI{#CLASS_NAME}; \
+        return type;                          \
+    }                                         \
+    inline virtual const RTTI& getType() const { return Type(); }
 
 // Forward declare
 // TODO Resolve circular dependencies
@@ -43,15 +53,13 @@ class Object
     /**
      * RTTI support
      */
-    static const RTTI& Type();
+    RTTI_DECLARE_NO_BASE(Object);
 
     bool isExactly(const RTTI& type) const;
     bool isDerived(const RTTI& type) const;
 
     bool isExactlyTypeOf(const Object* type) const;
     bool isDerivedTypeOf(const Object* type) const;
-
-    virtual const RTTI& getType() const;
 
     /**
      * Object runtime name
@@ -85,9 +93,10 @@ class Object
     void setController(Controller* controller);
     size_t getControllerCount() const;
     Controller* getController(size_t index) const;
+
     void removeController(Controller* controller);
     void removeAllControllers();
-    void updateControllers(double deltaTime);
+    void updateControllers(double appTime);
 
     /**
      * Streaming support
@@ -105,6 +114,24 @@ class Object
 
     virtual size_t getMemoryUsed() const;
     virtual size_t getDiskUsed() const;
+
+    /**
+     * Cloning
+     */
+    // Creates deep copy
+    Pointer<Object> copy();
+    static char nameAppend();
+
+    /**
+     * Stringtree support
+     */
+    virtual StringTree* saveStrings(const std::string& title = "");
+
+    /**
+     * Pre-main initialization
+     */
+    INITIALIZE_DECLARE();
+    TERMINATE_DECLARE();
 
    private:
     // Object name

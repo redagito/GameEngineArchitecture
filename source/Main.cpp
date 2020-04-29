@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "core/Core.h"
 #include "core/Object.h"
 
 class MyClassA : public Object
@@ -14,7 +15,7 @@ class MyClassB : public MyClassA
     RTTI_DECLARE(MyClassB, MyClassA);
 };
 
-int main(int argc, char** argv)
+void appMain()
 {
     Pointer<MyClassA> a{new MyClassA};
     a->setName("A");
@@ -34,6 +35,15 @@ int main(int argc, char** argv)
     f->setName(f->getName() + "F");
 
     Object::printInUse("usage.txt", "Before end");
+}
+
+int main(int argc, char** argv)
+{
+    Core::initialize();
+
+    appMain();
+
+    Core::terminate();
 
     return 0;
 }

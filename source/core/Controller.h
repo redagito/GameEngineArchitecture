@@ -12,7 +12,7 @@ class Controller
     void setObject(Object* object);
     Object* getObject();
 
-    virtual void update(double deltaTime) = 0;
+    virtual void update(double appTime) = 0;
     virtual void registerStream(Stream& stream) = 0;
 
    private:
