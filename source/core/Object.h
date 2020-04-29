@@ -97,11 +97,11 @@ class Object
        static bool registerFactory();
        static void initializeFactory();
        static void terminateFactory();
-       static Object* factory(Stream& stream);
+       static Object* factory(Stream& stream); 
        
        virtual void load(Stream& stream, Link* link);
        virtual void link(Stream& stream, Link* link);
-       virtual void registerStream(Stream& stream) const;
+       virtual bool registerStream(Stream& stream);
        virtual void save(Stream& stream) const;
 
        virtual size_t getMemoryUsed() const;

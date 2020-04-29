@@ -2,6 +2,7 @@
 
 // Forward declare
 class Object;
+class Stream;
 
 class Controller
 {
@@ -12,6 +13,7 @@ class Controller
        Object* getObject();
        
        virtual void update(double deltaTime) = 0;
+       virtual void registerStream(Stream& stream) = 0;
 
     private:
         // Managed object

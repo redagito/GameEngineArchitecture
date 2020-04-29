@@ -6,7 +6,7 @@ class Object;
 
 class Link
 {
-};
+}; 
 
 class Stream
 {
@@ -14,7 +14,11 @@ class Stream
        Stream();
        virtual ~Stream();
        
+       // These should take const objects?
        bool insert(Object* object);
+       bool insertInMap(Object* object, void* /* ??? */);
+       bool insertInOrdered(Object* object);
+
        bool remove(Object* object);
        void removeAll();
        

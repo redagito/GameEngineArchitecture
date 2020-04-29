@@ -5,7 +5,7 @@
 class MyClassA : public Object
 {
    public:
-	   RTTI_DECLARE(MyClassA, Object);
+	   RTTI_DECLARE(MyClassA, Object); 
 };
 
 class MyClassB : public MyClassA

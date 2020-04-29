@@ -16,5 +16,5 @@ bool RTTI::isDerived(const RTTI& type) const {
 	{
 		if (curr == &type) return true;
 	}
-	return false;
+	return false; 
 }

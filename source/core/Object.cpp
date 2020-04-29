@@ -189,7 +189,20 @@ void Object::load(Stream& stream, Link* link) {
 void Object::link(Stream& stream, Link* link) {
 }
 
-void Object::registerStream(Stream& stream) const {
+bool Object::registerStream(Stream& stream) {
+
+    if (!stream.insertInMap(this, nullptr)) return false;
+    
+    // Ensure objects are saved in order corresponding to
+    // depth-first traversal
+    stream.insertInOrdered(this);
+
+    // Register controllers
+    for (auto controller : m_controllers)
+    {
+        if (controller != nullptr) controller->registerStream(stream);
+    }
+    return true;
 }
 
 void Object::save(Stream& stream) const {

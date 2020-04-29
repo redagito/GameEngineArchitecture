@@ -8,4 +8,4 @@ void Controller::setObject(Object* object) {
 
 Object* Controller::getObject() {
 	return m_object;
-}
+} 

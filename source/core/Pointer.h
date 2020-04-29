@@ -13,7 +13,7 @@ class Pointer
     Pointer(const Pointer& p);
     ~Pointer();
 
-    /**
+    /** 
     * Implicit conversion
     */
     operator T*();

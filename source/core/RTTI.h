@@ -18,7 +18,7 @@ class RTTI
        /**
        * Is the provided type
        */
-       bool isExactly(const RTTI& type) const;
+       bool isExactly(const RTTI& type) const; 
 
        /**
        * Is either the same type or a derived type
