@@ -2,23 +2,22 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
-#include "core/RTTI.h"
 #include "core/Pointer.h"
+#include "core/RTTI.h"
 
 /**
-* RTTI macros
-*/
-#define RTTI_DECLARE(CLASS_NAME, BASE_NAME) \
-	inline static const RTTI& Type() { \
-		static RTTI type = RTTI{#CLASS_NAME, &BASE_NAME::Type()}; \
-		return type; \
-	} \
-	inline const RTTI& getType() const { \
-		return Type(); \
-	}
+ * RTTI macros
+ */
+#define RTTI_DECLARE(CLASS_NAME, BASE_NAME)                       \
+    inline static const RTTI& Type()                              \
+    {                                                             \
+        static RTTI type = RTTI{#CLASS_NAME, &BASE_NAME::Type()}; \
+        return type;                                              \
+    }                                                             \
+    inline const RTTI& getType() const { return Type(); }
 
 // Forward declare
 // TODO Resolve circular dependencies
@@ -27,100 +26,100 @@ class Stream;
 class Link;
 
 /**
-* Base object for RTTI
-*/
+ * Base object for RTTI
+ */
 class Object
 {
    public:
-       // Object ID
-       using Id = std::uint64_t;
-       
-       // Factory function
-       using FactoryFunction = Object*(*)(Stream&);
+    // Object ID
+    using Id = std::uint64_t;
 
-       Object();
-       virtual ~Object();
+    // Factory function
+    using FactoryFunction = Object* (*)(Stream&);
 
-       /**
-       * RTTI support
-       */
-       static const RTTI& Type();
+    Object();
+    virtual ~Object();
 
-       bool isExactly(const RTTI& type) const;
-       bool isDerived(const RTTI& type) const;
-       
-       bool isExactlyTypeOf(const Object* type) const;
-       bool isDerivedTypeOf(const Object* type) const;
+    /**
+     * RTTI support
+     */
+    static const RTTI& Type();
 
-       virtual const RTTI& getType() const;
+    bool isExactly(const RTTI& type) const;
+    bool isDerived(const RTTI& type) const;
 
-       /**
-       * Object runtime name
-       */
-       void setName(const std::string& name);
-       const std::string& getName() const;
+    bool isExactlyTypeOf(const Object* type) const;
+    bool isDerivedTypeOf(const Object* type) const;
 
-       virtual Object* getObjectByName(const std::string& name);
-       virtual std::vector<Object*> getAllObjectsByName(const std::string& name);
+    virtual const RTTI& getType() const;
 
-       /**
-       * Unique runtime ID
-       */
-       Id getId() const;
-       static Id getNextId();
-       virtual Object* getObjectById(Id id);
+    /**
+     * Object runtime name
+     */
+    void setName(const std::string& name);
+    const std::string& getName() const;
 
-       /**
-       * Smart pointer and sharing
-       */
-       void incrementReferences();
-       void decrementReferences();
-       int getReferences() const;
+    virtual Object* getObjectByName(const std::string& name);
+    virtual std::vector<Object*> getAllObjectsByName(const std::string& name);
 
-       static std::unordered_map<Id, Object*>& inUse();
-       static void printInUse(const std::string& fileName, const std::string& message);
+    /**
+     * Unique runtime ID
+     */
+    Id getId() const;
+    static Id getNextId();
+    virtual Object* getObjectById(Id id);
 
-       /**
-       * Controller support
-       */
-       void setController(Controller* controller);
-       size_t getControllerCount() const;
-       Controller* getController(size_t index) const;
-       void removeController(Controller* controller);
-       void removeAllControllers();
-       void updateControllers(double deltaTime);
+    /**
+     * Smart pointer and sharing
+     */
+    void incrementReferences();
+    void decrementReferences();
+    int getReferences() const;
 
-       /**
-       * Streaming support
-       */
-       static std::unordered_map<std::string, FactoryFunction>& getFactories();
-       static bool registerFactory();
-       static void initializeFactory();
-       static void terminateFactory();
-       static Object* factory(Stream& stream); 
-       
-       virtual void load(Stream& stream, Link* link);
-       virtual void link(Stream& stream, Link* link);
-       virtual bool registerStream(Stream& stream);
-       virtual void save(Stream& stream) const;
+    static std::unordered_map<Id, Object*>& inUse();
+    static void printInUse(const std::string& fileName, const std::string& message);
 
-       virtual size_t getMemoryUsed() const;
-       virtual size_t getDiskUsed() const;
+    /**
+     * Controller support
+     */
+    void setController(Controller* controller);
+    size_t getControllerCount() const;
+    Controller* getController(size_t index) const;
+    void removeController(Controller* controller);
+    void removeAllControllers();
+    void updateControllers(double deltaTime);
 
-    private:
-        // Object name
-        std::string m_name;
+    /**
+     * Streaming support
+     */
+    static std::unordered_map<std::string, FactoryFunction>& getFactories();
+    static bool registerFactory();
+    static void initializeFactory();
+    static void terminateFactory();
+    static Object* factory(Stream& stream);
 
-        // UID
-        const Id m_id = getNextId();
+    virtual void load(Stream& stream, Link* link);
+    virtual void link(Stream& stream, Link* link);
+    virtual bool registerStream(Stream& stream);
+    virtual void save(Stream& stream) const;
 
-        // Reference count
-        // TODO Should be unsigned but keep signed for in now in case of bugs
-        //      where we might get negative count
-        int m_references = 0;
+    virtual size_t getMemoryUsed() const;
+    virtual size_t getDiskUsed() const;
 
-        // Attached controllers
-        std::vector<Controller*> m_controllers;
+   private:
+    // Object name
+    std::string m_name;
+
+    // UID
+    const Id m_id = getNextId();
+
+    // Reference count
+    // TODO Should be unsigned but keep signed for in now in case of bugs
+    //      where we might get negative count
+    int m_references = 0;
+
+    // Attached controllers
+    std::vector<Controller*> m_controllers;
 };
 
 template <typename T>
@@ -138,13 +137,15 @@ const T* staticCast(const Object* obj)
 template <typename T>
 T* dynamicCast(Object* obj)
 {
-    if (obj != nullptr && obj->isDerived(T::Type())) return dynamic_cast<T*>(obj);
+    if (obj != nullptr && obj->isDerived(T::Type()))
+        return dynamic_cast<T*>(obj);
     return nullptr;
 }
 
 template <typename T>
 const T* dynamicCast(const Object* obj)
 {
-    if (obj != nullptr && obj->isDerived(T::Type())) return dynamic_cast<const T*>(obj);
+    if (obj != nullptr && obj->isDerived(T::Type()))
+        return dynamic_cast<const T*>(obj);
     return nullptr;
 }

@@ -6,42 +6,42 @@ class Object;
 
 class Link
 {
-}; 
+};
 
 class Stream
 {
    public:
-       Stream();
-       virtual ~Stream();
-       
-       // These should take const objects?
-       bool insert(Object* object);
-       bool insertInMap(Object* object, void* /* ??? */);
-       bool insertInOrdered(Object* object);
+    Stream();
+    virtual ~Stream();
 
-       bool remove(Object* object);
-       void removeAll();
-       
-       size_t getObjectCount() const;
-       Object* getObject(size_t index) const;
+    // These should take const objects?
+    bool insert(Object* object);
+    bool insertInMap(Object* object, void* /* ??? */);
+    bool insertInOrdered(Object* object);
 
-       bool isTopLevel(Object* object);
+    bool remove(Object* object);
+    void removeAll();
 
-       /**
-       * Load from binary buffer
-       */
-       bool load(const uint8_t* buffer, size_t bufferSize);
+    size_t getObjectCount() const;
+    Object* getObject(size_t index) const;
 
-       /**
-       * Save to binary buffer
-       */
-       bool save(uint8_t*& buffer, size_t& bufferSize) const;
+    bool isTopLevel(Object* object);
 
-       /**
-       * Memory and disk usage in bytes
-       */
-       size_t getMemoryUsed() const;
-       size_t getDiskUsed() const;
+    /**
+     * Load from binary buffer
+     */
+    bool load(const uint8_t* buffer, size_t bufferSize);
 
-    private:
+    /**
+     * Save to binary buffer
+     */
+    bool save(uint8_t*& buffer, size_t& bufferSize) const;
+
+    /**
+     * Memory and disk usage in bytes
+     */
+    size_t getMemoryUsed() const;
+    size_t getDiskUsed() const;
+
+   private:
 };

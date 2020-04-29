@@ -2,10 +2,6 @@
 
 Controller::~Controller() {}
 
-void Controller::setObject(Object* object) {
-	m_object = object;
-}
+void Controller::setObject(Object* object) { m_object = object; }
 
-Object* Controller::getObject() {
-	return m_object;
-} 
+Object* Controller::getObject() { return m_object; }
