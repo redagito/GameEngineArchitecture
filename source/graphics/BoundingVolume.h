@@ -20,6 +20,10 @@ class BoundingVolume : public Object
 
     virtual void computeFromData(const std::vector<glm::vec3>& vertices) = 0;
 
+    /**
+     * Transforms bounding volume and stores in result
+     * TODO Use reference for out parameter
+     */
     virtual void transformBy(const Transformation& transform, BoundingVolume* result) = 0;
 
     virtual int whichSide(const Plane3& plane) const = 0;

@@ -10,25 +10,6 @@
 #include "core/RTTI.h"
 #include "core/StringTree.h"
 
-/**
- * RTTI helper macros for Object class and derived types
- */
-#define RTTI_DECLARE(CLASS_NAME, BASE_NAME)                       \
-    inline static const RTTI& Type()                              \
-    {                                                             \
-        static RTTI type = RTTI{#CLASS_NAME, &BASE_NAME::Type()}; \
-        return type;                                              \
-    }                                                             \
-    inline virtual const RTTI& getType() const { return Type(); }
-
-#define RTTI_DECLARE_NO_BASE(CLASS_NAME)      \
-    inline static const RTTI& Type()          \
-    {                                         \
-        static RTTI type = RTTI{#CLASS_NAME}; \
-        return type;                          \
-    }                                         \
-    inline virtual const RTTI& getType() const { return Type(); }
-
 // Forward declare
 // TODO Resolve circular dependencies
 class Controller;

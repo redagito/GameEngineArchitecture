@@ -79,6 +79,7 @@ T& Pointer<T>::operator*()
 template <typename T>
 T* Pointer<T>::operator->()
 {
+    assert(m_object != nullptr);
     return m_object;
 }
 
@@ -137,10 +138,12 @@ void Pointer<T>::assign(T* object)
 {
     if (m_object == object)
         return;
+
     clear();
 
     if (object == nullptr)
         return;
+
     m_object = object;
     m_object->incrementReferences();
 }

@@ -25,9 +25,14 @@ class Node : public Spatial
 
    protected:
     /**
-     * Geometric update for world bounds
+     * Propagates transformation in downward pass to child nodes
      */
     virtual void updateWorldData(double appTime) override;
+
+    /**
+     * Update world bounding volume.
+     * Computes bound of all bounds.
+     */
     virtual void updateWorldBound() override;
 
    private:

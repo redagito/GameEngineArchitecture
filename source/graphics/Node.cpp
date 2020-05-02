@@ -89,4 +89,22 @@ void Node::updateWorldBound()
 {
     if (worldBoundIsCurrent)
         return;
+
+    bool foundFirstBound = false;
+    for (auto child : m_children)
+    {
+        if (child == nullptr)
+            continue;
+        if (foundFirstBound)
+        {
+            // Merge current world bound with child bound
+            worldBound->growToContain(child->worldBound);
+        }
+        else
+        {
+            // Set world bound to bound of first valid child
+            foundFirstBound = true;
+            worldBound->copyFrom(child->worldBound);
+        }
+    }
 }
