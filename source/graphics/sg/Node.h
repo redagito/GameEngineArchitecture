@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/Pointer.h"
-#include "graphics/Spatial.h"
+#include "graphics/sg/Spatial.h"
 
 class Node : public Spatial
 {
@@ -34,6 +34,11 @@ class Node : public Spatial
      * Computes bound of all bounds.
      */
     virtual void updateWorldBound() override;
+
+    /**
+     * Update rendering state
+     */
+    virtual void updateState(std::stack<GlobalState*>& globalStates, std::stack<Light*>& lights) override;
 
    private:
     std::vector<Pointer<Spatial>> m_children;

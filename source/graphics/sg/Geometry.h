@@ -5,7 +5,7 @@
 
 #include "core/Pointer.h"
 #include "graphics/BoundingVolume.h"
-#include "graphics/Spatial.h"
+#include "graphics/sg/Spatial.h"
 
 class Geometry : public Spatial
 {
@@ -63,4 +63,9 @@ class Geometry : public Spatial
      * Transform model bounding volume to world bounding volume
      */
     virtual void updateWorldBound() override;
+
+    /**
+     * Update rendering state
+     */
+    virtual void updateState(std::stack<GlobalState*>& globalStates, std::stack<Light*>& lights) override;
 };

@@ -1,11 +1,17 @@
 #pragma once
 
+#include <array>
+#include <set>
+#include <stack>
 #include <unordered_map>
 
 #include "core/Object.h"
 #include "graphics/BoundingVolume.h"
+#include "graphics/Effect.h"
 #include "graphics/state/GlobalState.h"
 #include "math/Transformation.h"
+
+class Light;
 
 /**
  * Represents a coordinate system in space
@@ -13,6 +19,7 @@
 class Spatial : public Object
 {
    public:
+    Spatial();
     virtual ~Spatial();
 
     Spatial* getParent();
@@ -52,6 +59,30 @@ class Spatial : public Object
     void removeGlobalState(GlobalState::Type type);
     void removeAllGlobalStates();
 
+    /**
+     * Light support
+     */
+    void setLight(Light* light);
+    size_t getLightQuantity() const;
+    Light* getLight(size_t index);
+    void removeLight(Light* light);
+    void removeAllLights();
+
+    /**
+     * Effect support
+     */
+    virtual void setEffect(Effect* effect);
+    Effect* getEffect();
+
+    /**
+     * Render state support
+     */
+    using GlobalStateArrayStack = std::array<std::stack<GlobalState*>, static_cast<size_t>(GlobalState::Type::Max)>;
+
+    // Initialtor
+    virtual void updateRenderState();
+    virtual void updateRenderState(GlobalStateArrayStack& globalStates, std::stack<Light*>& lights);
+
    protected:
     std::unordered_map<GlobalState::Type, Pointer<GlobalState>> m_globalStates;
 
@@ -68,6 +99,19 @@ class Spatial : public Object
 
     // Calculate world bounding volumes in upward pass
     void propagateBoundToRoot();
+
+    void propagateStateFromRoot(GlobalStateArrayStack& globalStates, std::stack<Light*>& lights);
+    void pushState(GlobalStateArrayStack& globalStates, std::stack<Light*>& lights);
+    void popState(GlobalStateArrayStack& globalStates, std::stack<Light*>& lights);
+
+    /**
+     * Stacks assemble the states and lights during depth first traversal
+     */
+    virtual void updateState(GlobalStateArrayStack& globalStates, std::stack<Light*>& lights) = 0;
+
+   protected:
+    std::set<Pointer<Light>>* m_lights = nullptr;
+    Pointer<Effect> m_effect;
 
    private:
     Spatial* m_parent = nullptr;

@@ -1,4 +1,4 @@
-#include "graphics/Particles.h"
+#include "graphics/sg/Particles.h"
 
 Particles::Particles(const std::vector<glm::vec3>& locations, const std::vector<float>& sizes, bool wantNormals)
     : locations(locations), sizes(sizes)

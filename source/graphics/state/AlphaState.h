@@ -5,10 +5,10 @@
 class AlphaState : public GlobalState
 {
    public:
-    virtual Type getGlobalStateType() const override;
-
     AlphaState() = default;
     virtual ~AlphaState() = default;
+
+    virtual Type getGlobalStateType() const override;
 
     // Source blend modes
     enum class SrcBlend

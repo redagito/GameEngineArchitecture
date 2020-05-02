@@ -1,4 +1,4 @@
-#include "graphics/Geometry.h"
+#include "graphics/sg/Geometry.h"
 
 Geometry::Geometry(const std::vector<glm::vec3>& vertices) : vertices(vertices) {}
 

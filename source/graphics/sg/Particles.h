@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/TriMesh.h"
+#include "graphics/sg/TriMesh.h"
 
 class Camera;
 

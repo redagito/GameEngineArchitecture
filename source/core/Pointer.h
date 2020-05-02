@@ -31,9 +31,11 @@ class Pointer
      */
     bool operator==(const T* object) const;
     bool operator!=(const T* object) const;
+    bool operator<(const T* object) const;
 
     bool operator==(const Pointer& p) const;
     bool operator!=(const Pointer& p) const;
+    bool operator<(const Pointer& p) const;
 
    private:
     void clear();
@@ -110,6 +112,12 @@ bool Pointer<T>::operator!=(const T* object) const
 }
 
 template <typename T>
+bool Pointer<T>::operator<(const T* object) const
+{
+    return m_object < object;
+}
+
+template <typename T>
 bool Pointer<T>::operator==(const Pointer& p) const
 {
     return m_object == p.m_object;
@@ -119,6 +127,12 @@ template <typename T>
 bool Pointer<T>::operator!=(const Pointer& p) const
 {
     return m_object != p.m_object;
+}
+
+template <typename T>
+bool Pointer<T>::operator<(const Pointer& p) const
+{
+    return m_object < p.m_object;
 }
 
 template <typename T>

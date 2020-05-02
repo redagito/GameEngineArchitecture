@@ -1,4 +1,4 @@
-#include "graphics/Node.h"
+#include "graphics/sg/Node.h"
 
 Node::Node(size_t quantity) { m_children.resize(quantity); }
 

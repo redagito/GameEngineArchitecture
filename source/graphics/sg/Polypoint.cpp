@@ -1,4 +1,4 @@
-#include "graphics/Polypoint.h"
+#include "graphics/sg/Polypoint.h"
 
 Polypoint::Polypoint(const std::vector<glm::vec3>& vertices) : Geometry(vertices)
 {

@@ -1,4 +1,4 @@
-#include "graphics/Polyline.h"
+#include "graphics/sg/Polyline.h"
 
 Polyline::Polyline(const std::vector<glm::vec3>& vertices, bool closed, bool contiguous)
     : m_closed(closed), m_contiguous(contiguous)

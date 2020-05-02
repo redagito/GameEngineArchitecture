@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/Geometry.h"
+#include "graphics/sg/Geometry.h"
 
 class Polyline : public Geometry
 {
